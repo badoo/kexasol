@@ -45,7 +45,7 @@ class ExaQueryFormatter(val connection: ExaConnection) {
      */
     fun formatQuery(query: String, queryParams: Map<String, Any?>): String {
         val m = placeholderPattern.matcher(query)
-        val b = StringBuilder()
+        val b = StringBuffer()
 
         val usedParams = mutableSetOf<String>()
 
