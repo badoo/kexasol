@@ -3,7 +3,7 @@ package com.badoo.kexasol
 
 object ExaConstant {
     const val DRIVER_NAME: String = "KExasol"
-    const val DRIVER_VERSION: String = "0.1.0"
+    const val DRIVER_VERSION: String = "0.1.1"
 
     const val DEFAULT_CONNECTION_TIMEOUT: Long = 10
     const val DEFAULT_SOCKET_TIMEOUT: Long = 30

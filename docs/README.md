@@ -39,7 +39,7 @@ repositories {
 Add dependency:
 
 ```
-implementation("com.github.badoo:kexasol:0.1.0")
+implementation("com.github.badoo:kexasol:0.1.1")
 ```
 
 ---
