@@ -7,6 +7,7 @@ version = "0.1.0"
 plugins {
     kotlin("jvm") version "1.4.10"
     kotlin("kapt") version "1.4.10"
+    `java-library`
     `maven-publish`
 }
 
@@ -61,5 +62,13 @@ kotlin {
 
     sourceSets["test"].apply {
         kotlin.srcDir("examples")
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("kexasol") {
+            from(components["java"])
+        }
     }
 }
