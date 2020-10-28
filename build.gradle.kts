@@ -7,6 +7,7 @@ version = "0.1.0"
 plugins {
     kotlin("jvm") version "1.4.10"
     kotlin("kapt") version "1.4.10"
+    `maven-publish`
 }
 
 tasks {
