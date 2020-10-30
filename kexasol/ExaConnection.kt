@@ -110,7 +110,7 @@ class ExaConnection(val options: ExaConnectionOptions) : Closeable {
         .add(ExaDataJsonAdapter())
         .build()
 
-    internal val logger = LoggerFactory.getLogger(javaClass)
+    internal val logger = LoggerFactory.getLogger(ExaConstant.DRIVER_NAME)
     internal val logHash = generateLogHash()
 
     internal val dsnParser = ExaDsnParser(this)
@@ -488,21 +488,20 @@ class ExaConnection(val options: ExaConnectionOptions) : Closeable {
     }
 
     /**
-     * Close() should always be called on connection objects.
+     * Close() should always be called on connection object when it is no longer needed.
      *
-     * If you forget to do so, connection on Exasol server side will not be terminated
-     * until garbage collector cleans up the WebSocket client.
+     * It is advised to take advantage of Kotlin `.use{}` function to call close automatically in case of exception.
      *
-     * Also, LOGOUT_TIME in system tables will be missing or inconsistent.
+     * Non-closed connections may linger in `EXA_ALL_SESSIONS` for a long time, and `LOGOUT_TIME` will be inconsistent.
      */
     override fun close() {
         if (!isClosed) {
-            if (!wsClient.isClosed) {
-                executeCommand<ApiResponse.DisconnectV1>(ApiCommand.DisconnectV1())
+            if (wsClient.isConnected) {
                 wsClient.close()
             }
 
             isClosed = true
+            logDebug("Connection was closed")
         }
     }
 
@@ -565,8 +564,8 @@ class ExaConnection(val options: ExaConnectionOptions) : Closeable {
                             )
 
                             "R0004" -> {
-                                // WebSocket should be closed here, it will not receive any more responses
-                                wsClient.close()
+                                // Exasol server will no longer respond to any commands from this connection
+                                close()
 
                                 throw ExaQueryConnectionKilledException(
                                     this, commonResponse.exception.text, extra = mapOf(

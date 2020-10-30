@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
 group = "com.badoo.kexasol"
-version = "0.1.1"
+version = "0.2.1"
 
 plugins {
     kotlin("jvm") version "1.4.10"
@@ -20,12 +20,18 @@ tasks {
     }
 
     test {
-        useJUnitPlatform()
+        useTestNG()
         maxParallelForks = 1
 
+        if (project.hasProperty("EXADEBUG")) {
+            jvmArgs = listOf("-Dorg.slf4j.simpleLogger.defaultLogLevel=debug")
+        }
+
         testLogging {
-            outputs.upToDateWhen {false}
             showStandardStreams = true
+            showExceptions = true
+            showCauses = true
+            showStackTraces = true
             exceptionFormat = TestExceptionFormat.FULL
         }
     }
@@ -50,9 +56,9 @@ dependencies {
 
     testImplementation("org.jetbrains.kotlin:kotlin-test-common:1.4.10")
     testImplementation("org.jetbrains.kotlin:kotlin-test-annotations-common:1.4.10")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.4.10")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-testng:1.4.10")
     testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
-    testImplementation("ch.qos.logback:logback-classic:1.2.3")
+    testImplementation("org.slf4j:slf4j-simple:1.7.30")
 }
 
 kotlin {

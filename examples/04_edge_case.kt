@@ -23,19 +23,21 @@ class Example04EdgeCase : KExasolExample() {
             compression = true
         ).connect()
 
-        val insertQuery = "INSERT INTO edge_case VALUES ({dec36_0!d}, {dec36_36!d}, {dbl!f}, {bl}, {dt}, {ts}, {var100}, {var2000000})"
-        val selectQuery = "SELECT dec36_0, dec36_36, dbl, bl, dt, ts, var100, LENGTH(var2000000) AS len_var FROM edge_case"
+        exa.use {
+            val insertQuery = "INSERT INTO edge_case VALUES ({dec36_0!d}, {dec36_36!d}, {dbl!f}, {bl}, {dt}, {ts}, {var100}, {var2000000})"
+            val selectQuery = "SELECT dec36_0, dec36_36, dbl, bl, dt, ts, var100, LENGTH(var2000000) AS len_var FROM edge_case"
 
-        exa.execute("TRUNCATE TABLE edge_case")
+            exa.execute("TRUNCATE TABLE edge_case")
 
-        exa.execute(insertQuery, edgeCaseData[0])
-        exa.execute(insertQuery, edgeCaseData[1])
-        exa.execute(insertQuery, edgeCaseData[2])
+            exa.execute(insertQuery, edgeCaseData[0])
+            exa.execute(insertQuery, edgeCaseData[1])
+            exa.execute(insertQuery, edgeCaseData[2])
 
-        val st = exa.execute(selectQuery)
+            val st = exa.execute(selectQuery)
 
-        st.forEach { row ->
-            println(row.asMap())
+            st.forEach { row ->
+                println(row.asMap())
+            }
         }
     }
 
@@ -53,20 +55,22 @@ class Example04EdgeCase : KExasolExample() {
             compression = true
         ).connect()
 
-        val cols = listOf("dec36_0", "dec36_36", "dbl", "bl", "dt", "ts", "var100", "var2000000")
+        exa.use {
+            val cols = listOf("dec36_0", "dec36_36", "dbl", "bl", "dt", "ts", "var100", "var2000000")
 
-        exa.streamImport("edge_case", cols) { streamSink ->
-            ExaStreamCSVWriter(cols, streamSink).use { writer ->
-                writer.writeRow(edgeCaseData[0])
-                writer.writeRow(edgeCaseData[1])
-                writer.writeRow(edgeCaseData[2])
+            exa.streamImport("edge_case", cols) { streamSink ->
+                ExaStreamCSVWriter(cols, streamSink).use { writer ->
+                    writer.writeRow(edgeCaseData[0])
+                    writer.writeRow(edgeCaseData[1])
+                    writer.writeRow(edgeCaseData[2])
+                }
             }
-        }
 
-        exa.streamExport("SELECT dec36_0, dec36_36, dbl, bl, dt, ts, var100, LENGTH(var2000000) AS len_var FROM edge_case") { streamSource ->
-            ExaStreamCSVReader(streamSource).use { reader ->
-                reader.forEach { row ->
-                    println(row.asMap())
+            exa.streamExport("SELECT dec36_0, dec36_36, dbl, bl, dt, ts, var100, LENGTH(var2000000) AS len_var FROM edge_case") { streamSource ->
+                ExaStreamCSVReader(streamSource).use { reader ->
+                    reader.forEach { row ->
+                        println(row.asMap())
+                    }
                 }
             }
         }
@@ -86,18 +90,20 @@ class Example04EdgeCase : KExasolExample() {
             encryption = ExaEncryptionMode.ENABLED_NO_CERT,
         ).connect()
 
-        val st = exa.execute(
-            "SELECT {val1} AS val1, {val2} AS val2, {val3} AS val3, {val4} AS val4, {val5} AS val5", mapOf(
-                "val1" to edgeCaseData[0]["var2000000"],
-                "val2" to edgeCaseData[0]["var2000000"],
-                "val3" to edgeCaseData[0]["var2000000"],
-                "val4" to edgeCaseData[0]["var2000000"],
-                "val5" to edgeCaseData[0]["var2000000"],
+        exa.use {
+            val st = exa.execute(
+                "SELECT {val1} AS val1, {val2} AS val2, {val3} AS val3, {val4} AS val4, {val5} AS val5", mapOf(
+                    "val1" to edgeCaseData[0]["var2000000"],
+                    "val2" to edgeCaseData[0]["var2000000"],
+                    "val3" to edgeCaseData[0]["var2000000"],
+                    "val4" to edgeCaseData[0]["var2000000"],
+                    "val5" to edgeCaseData[0]["var2000000"],
+                )
             )
-        )
 
-        println("Query length: ${st.formattedQuery.length}")
-        println("Result column length: ${st.onlyRow().getString(0)?.length}")
+            println("Query length: ${st.formattedQuery.length}")
+            println("Result column length: ${st.onlyRow().getString(0)?.length}")
+        }
     }
 
     private val edgeCaseData = listOf(

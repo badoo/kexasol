@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.com/badoo/kexasol.svg?branch=master)](https://travis-ci.com/badoo/kexasol)
+[![Release](https://jitpack.io/v/badoo/kexasol.svg)](https://jitpack.io/#badoo/kexasol)
+
 KExasol is a custom database driver for [Exasol](https://www.exasol.com) implemented in Kotlin (JVM).
 
 It offers unique features compared to standard JDBC driver:
@@ -39,7 +42,7 @@ repositories {
 Add dependency:
 
 ```
-implementation("com.github.badoo:kexasol:0.1.1")
+implementation("com.github.badoo:kexasol:0.2.1")
 ```
 
 ---

@@ -40,6 +40,7 @@ internal class ExaDataJsonAdapter {
         @JsonExaData outerList: List<@JvmSuppressWildcards List<@JvmSuppressWildcards Any?>>?
     ) {
         if (outerList == null) {
+            writer.nullValue()
             return
         }
 

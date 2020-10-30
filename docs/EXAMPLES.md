@@ -1,6 +1,6 @@
 ## Preparation
 
-KExasol uses Kotlin test + JUnit5 to run examples. In order to run examples yourself, please follow the following instructions:
+KExasol uses Kotlin test + TestNG to run examples. In order to run examples yourself, please follow the following instructions:
 
 1. Make sure [Gradle](https://gradle.org/install/) is installed.
 2. Make sure you have an Exasol instance up and running. You may use [Exasol Community Edition](https://www.exasol.com/portal/display/DOWNLOAD/Free+Trial) or [Exasol Docker version](https://github.com/exasol/docker-db) for tests.
@@ -30,6 +30,14 @@ EXAHOST=<dsn> EXAUID=<user> EXAPWD=<password> EXASCHEMA=<schema> gradle test --t
 ```
 
 You may also run examples directly in IntelliJ IDEA. In order to set credentials, go to "Run -> Edit Configurations -> Templates -> Gradle" and update the "Environment variables" field.
+
+### Debug logging
+
+In order to activate detailed debug logging, please run examples with project parameter `-P EXADEBUG`:
+
+```
+EXAHOST=<dsn> EXAUID=<user> EXAPWD=<password> EXASCHEMA=<schema> gradle test --tests Example01* -P EXADEBUG
+```
 
 ## Examples
 

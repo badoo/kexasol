@@ -1,0 +1,32 @@
+language: java
+os: linux
+
+env:
+  global:
+    - EXAHOST="127.0.0.1:8563"
+
+matrix:
+  include:
+    - env: EXASOL_TAG=latest-7.0 EXASOL_PORT=8563
+    - env: EXASOL_TAG=latest-6.2 EXASOL_PORT=8888
+    - env: EXASOL_TAG=latest-6.1 EXASOL_PORT=8888
+    - env: EXASOL_TAG=6.0.16-d1 EXASOL_PORT=8888
+
+services:
+  - docker
+
+install:
+  - docker run --detach --name exasol --privileged -p 127.0.0.1:8563:$EXASOL_PORT exasol/docker-db:$EXASOL_TAG
+  - sleep 120
+
+script:
+  - ./gradlew build --no-daemon --no-parallel --build-cache
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/

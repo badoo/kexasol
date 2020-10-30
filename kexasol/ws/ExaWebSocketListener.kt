@@ -10,6 +10,7 @@ import kotlin.concurrent.withLock
 internal class ExaWebSocketListener(private val client: ExaWebSocketClient) : WebSocketListener() {
     override fun onOpen(webSocket: WebSocket, response: Response) {
         client.wsLock.withLock {
+            client.isConnected = true
             client.lastResponse = ExaWebSocketResponse(ExaWebSocketResponseType.OPEN)
             client.wsLockCondition.signal()
         }
@@ -31,12 +32,17 @@ internal class ExaWebSocketListener(private val client: ExaWebSocketClient) : We
 
     override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
         client.wsLock.withLock {
+            client.isConnected = false
             client.lastResponse = ExaWebSocketResponse(ExaWebSocketResponseType.FAILURE, cause = t)
             client.wsLockCondition.signal()
         }
     }
 
     override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-        client.close()
+        webSocket.close(1000, "")
+    }
+
+    override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
+        client.isConnected = false
     }
 }

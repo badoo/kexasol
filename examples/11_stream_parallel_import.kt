@@ -21,37 +21,36 @@ class Example11StreamParallelImport : KExasolExample() {
             schema = credentials.schema
         )
 
-        // Open main connection
-        val exa = options.connect()
+        options.connect().use { exa ->
+            // Get list of randomly shuffled addresses for specific number of workers
+            val nodeAddressList = exa.streamParallelNodes(4)
 
-        // Get list of randomly shuffled addresses for specific number of workers
-        val nodeAddressList = exa.streamParallelNodes(4)
+            // Create child thread objects, but do not start them yet
+            val childThreads = nodeAddressList.mapIndexed { idx, nodeAddress ->
+                ChildImportThread(idx, options, nodeAddress)
+            }
 
-        // Create child thread objects, but do not start them yet
-        val childThreads = nodeAddressList.mapIndexed { idx, nodeAddress ->
-            ChildImportThread(idx, options, nodeAddress)
-        }
+            // Get list of internal addresses from child thread objects
+            val internalAddressList = childThreads.map { it.internalAddress }
 
-        // Get list of internal addresses from child thread objects
-        val internalAddressList = childThreads.map { it.internalAddress }
+            // Start child threads
+            childThreads.forEach {
+                it.start()
+            }
 
-        // Start child threads
-        childThreads.forEach {
-            it.start()
-        }
+            // Clean up the target table before import
+            exa.execute("TRUNCATE TABLE payments_copy")
 
-        // Clean up the target table before import
-        exa.execute("TRUNCATE TABLE payments_copy")
+            val paymentsCols = listOf("USER_ID", "PAYMENT_ID", "PAYMENT_TS", "GROSS_AMT", "NET_AMT")
 
-        val paymentsCols = listOf("USER_ID", "PAYMENT_ID", "PAYMENT_TS", "GROSS_AMT", "NET_AMT")
+            // Run IMPORT query in the main thread
+            val st = exa.streamParallelImport(internalAddressList, "payments_copy", paymentsCols)
+            println("IMPORT affected rows: ${st.rowCount}")
 
-        // Run IMPORT query in the main thread
-        val st = exa.streamParallelImport(internalAddressList, "payments_copy", paymentsCols)
-        println("IMPORT affected rows: ${st.rowCount}")
-
-        // Wait for child threads to finish
-        childThreads.forEach {
-            it.join()
+            // Wait for child threads to finish
+            childThreads.forEach {
+                it.join()
+            }
         }
     }
 

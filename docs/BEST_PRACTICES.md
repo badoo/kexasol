@@ -8,6 +8,12 @@ Exasol can write indexes and flush statistics even after basic SELECT queries. I
 
 It is generally advised to have autocommit being enabled in all cases, unless you really need to run multiple statements in on transaction.
 
+## Close connections properly
+
+KExasol connections should always be closed when no longer needed.
+
+It is advised to take advantage of Kotlin [`.use{}`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/use.html) function to call close automatically in case of exception.
+
 ## Consider enabling network traffic compression
 
 If network connection is a bottleneck, you may set option `compression=true` to enable zlib-compression. It applies both to normal data fetching and to CSV streaming.

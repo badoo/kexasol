@@ -91,7 +91,7 @@ internal class ExaStreamQueryThread(
     }
 
     private fun buildImportParameterParts(): List<String> {
-        return listOf("SKIP=1")
+        return listOf()
     }
 
     private fun buildExportParameterParts(): List<String> {

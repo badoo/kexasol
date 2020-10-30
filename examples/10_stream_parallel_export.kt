@@ -19,32 +19,31 @@ class Example10StreamParallelExport : KExasolExample() {
             schema = credentials.schema
         )
 
-        // Open main connection
-        val exa = options.connect()
+        options.connect().use { exa ->
+            // Get list of randomly shuffled addresses for specific number of workers
+            val nodeAddressList = exa.streamParallelNodes(4)
 
-        // Get list of randomly shuffled addresses for specific number of workers
-        val nodeAddressList = exa.streamParallelNodes(4)
+            // Create child thread objects, but do not start them yet
+            val childThreads = nodeAddressList.mapIndexed { idx, nodeAddress ->
+                ChildExportThread(idx, options, nodeAddress)
+            }
 
-        // Create child thread objects, but do not start them yet
-        val childThreads = nodeAddressList.mapIndexed { idx, nodeAddress ->
-            ChildExportThread(idx, options, nodeAddress)
-        }
+            // Get list of internal addresses from child thread objects
+            val internalAddressList = childThreads.map { it.internalAddress }
 
-        // Get list of internal addresses from child thread objects
-        val internalAddressList = childThreads.map { it.internalAddress }
+            // Start child threads
+            childThreads.forEach {
+                it.start()
+            }
 
-        // Start child threads
-        childThreads.forEach {
-            it.start()
-        }
+            // Run EXPORT query in the main thread
+            val st = exa.streamParallelExport(internalAddressList, "SELECT * FROM payments")
+            println("EXPORT affected rows: ${st.rowCount}")
 
-        // Run EXPORT query in the main thread
-        val st = exa.streamParallelExport(internalAddressList, "SELECT * FROM payments")
-        println("EXPORT affected rows: ${st.rowCount}")
-
-        // Wait for child threads to finish
-        childThreads.forEach {
-            it.join()
+            // Wait for child threads to finish
+            childThreads.forEach {
+                it.join()
+            }
         }
     }
 

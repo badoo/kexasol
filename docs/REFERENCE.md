@@ -326,12 +326,11 @@ Full list of possible attributes: https://github.com/exasol/websocket-api/blob/m
 
 ### close()
 
-Close() should always be called on connection objects.
+Close() should always be called on connection object when it is no longer needed.
 
-If you forget to do so, connection on Exasol server side will not be terminated until garbage collector cleans up the WebSocket client.
+It is advised to take advantage of Kotlin [`.use{}`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/use.html) function to call close automatically in case of exception.
 
-Also, `LOGOUT_TIME` in system tables will be missing or inconsistent.
-
+Non-closed connections may linger in `EXA_ALL_SESSIONS` for a long time, and `LOGOUT_TIME` will be inconsistent.
 ### .loginInfo
 
 Response data from successful login command, does not change.

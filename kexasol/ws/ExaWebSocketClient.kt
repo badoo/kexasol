@@ -9,6 +9,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.WebSocket
 import okio.*
+import java.io.Closeable
 import java.security.SecureRandom
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.Condition
@@ -20,7 +21,7 @@ import kotlin.system.measureTimeMillis
 
 internal class ExaWebSocketClient(
     val connection: ExaConnection
-) {
+): Closeable {
     val wsLock = ReentrantLock()
     val wsLockCondition: Condition = wsLock.newCondition()
 
@@ -33,7 +34,7 @@ internal class ExaWebSocketClient(
     var compressionEnabled = false
     var lastResponseTimeMillis: Long = 0L
 
-    var isClosed = false
+    var isConnected = false
 
     init {
         val builder = OkHttpClient.Builder()
@@ -86,10 +87,6 @@ internal class ExaWebSocketClient(
         }
     }
 
-    fun enableCompression() {
-        compressionEnabled = true
-    }
-
     fun sendCommandAndWaitForResponse(json: String): String {
         wsLock.withLock {
             lastResponseTimeMillis = measureTimeMillis {
@@ -117,10 +114,13 @@ internal class ExaWebSocketClient(
         }
     }
 
-    fun close() {
-        if (!isClosed) {
-            webSocket.close(1000, "")
-            isClosed = true
+    fun enableCompression() {
+        compressionEnabled = true
+    }
+
+    override fun close() {
+        if (isConnected) {
+            webSocket.close(1000, null)
         }
     }
 
