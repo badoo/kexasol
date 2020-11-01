@@ -32,7 +32,7 @@ INSERT statements do not scale very well. Also, prepared statements have a numbe
 
 It is advised to use [streamImportIterator](REFERENCE.md#streamimportiterator) instead. It provides convenient interface which is similar to INSERT, but wrapped into efficient CSV streaming and IMPORT command instead.
 
-## Do not use connection object from multiple threads
+## Do not share connection object by multiple concurrent threads
 
 Exasol connection can only execute one query at a time. If you try to execute another query in another thread, it will be blocked until the first query is finished.
 
@@ -48,4 +48,4 @@ Just set the `snapshotExecution=true` while calling `execute()` function to enab
 
 Please note, it only works for system views. You should not use it for normal tables.
 
-More details: Learn more: https://www.exasol.com/support/browse/EXASOL-2646
+Learn more: https://www.exasol.com/support/browse/EXASOL-2646
