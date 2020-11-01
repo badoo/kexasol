@@ -18,6 +18,7 @@ KExasol encourages best practices that are specific for Exasol distributed archi
 - [Getting started](#getting-started)
 - [Reference](REFERENCE.md)
 - [Examples](EXAMPLES.md)
+- [Data types](DATA_TYPES.md)
 - [Best practices](BEST_PRACTICES.md)
 - [SQL formatting](SQL_FORMATTING.md)
 - [Changelog](CHANGELOG.md)

@@ -7,7 +7,10 @@ import java.time.LocalDateTime
 
 
 /**
- * Exasol row representation returned by [ExaStreamCSVReader]
+ * Exasol row representation returned by [ExaStreamCSVReader].
+ *
+ * Use common getters to retrieve individual values as specific data types.
+ * Use special getters [asList] and [asMap] to retrieve the whole row at once as a collection.
  */
 class ExaStreamExportRow(
     private val row: Array<String?>,

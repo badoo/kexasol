@@ -7,7 +7,10 @@ import java.time.LocalDateTime
 
 
 /**
- * Exasol row representation returned by [ExaStatement]
+ * Exasol row representation returned by [ExaStatement].
+ *
+ * Use common getters to retrieve individual values as specific data types.
+ * Use special getters [asList] and [asMap] to retrieve the whole row at once as a collection.
  */
 class ExaStatementRow(
     private val row: List<Any?>,
@@ -53,14 +56,6 @@ class ExaStatementRow(
         return getString(idx)?.let { ExaDateTimeFormatter.parseLocalDateTime(it) }
     }
 
-    fun asList(): List<Any?> {
-        return row
-    }
-
-    fun asMap(): Map<String, Any?> {
-        return columnNamesMap.keys.zip(row).toMap()
-    }
-
     /*
      * Getters by column name
      */
@@ -99,6 +94,18 @@ class ExaStatementRow(
 
     fun getLocalDateTime(name: String): LocalDateTime? {
         return getLocalDateTime(findColumn(name))
+    }
+
+    /*
+     * Collection getters
+     */
+
+    fun asList(): List<Any?> {
+        return row
+    }
+
+    fun asMap(): Map<String, Any?> {
+        return columnNamesMap.keys.zip(row).toMap()
     }
 
     /*
