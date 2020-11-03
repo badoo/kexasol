@@ -97,3 +97,10 @@ GROUP BY 1,2,3
 ORDER BY 4 DESC
 LIMIT 10
 ```
+
+### IntelliJ IDE User Parameters
+
+It is possible to teach the IDE to recognize KExasol placeholders in SQL strings.
+
+1. Settings -> Tools -> Database -> User Parameters
+2. Add a new pattern: `\{\w+(\!\w(\[\])?)?\}`
