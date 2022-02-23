@@ -7,6 +7,7 @@ env:
 
 matrix:
   include:
+    - env: EXASOL_TAG=latest-7.1 EXASOL_PORT=8563
     - env: EXASOL_TAG=latest-7.0 EXASOL_PORT=8563
     - env: EXASOL_TAG=latest-6.2 EXASOL_PORT=8888
     - env: EXASOL_TAG=latest-6.1 EXASOL_PORT=8888
