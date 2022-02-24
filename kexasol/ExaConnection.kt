@@ -201,6 +201,7 @@ class ExaConnection(val options: ExaConnectionOptions) : Closeable {
      * @throws ExaQueryException
      * @return ExaStatement
      */
+    @JvmOverloads
     fun execute(query: String, queryParams: Map<String, Any?>? = null, snapshotExecution: Boolean = false): ExaStatement {
         return ExaStatement(this, query, queryParams, snapshotExecution)
     }
