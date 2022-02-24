@@ -1,8 +1,8 @@
 package com.badoo.kexasol.stream
 
 import com.badoo.kexasol.ExaConnection
-import com.badoo.kexasol.enum.ExaEncryptionMode
-import com.badoo.kexasol.enum.ExaStreamMode
+import com.badoo.kexasol.mode.ExaEncryptionMode
+import com.badoo.kexasol.mode.ExaStreamMode
 import com.badoo.kexasol.statement.ExaStatement
 
 internal class ExaStreamQueryThread(

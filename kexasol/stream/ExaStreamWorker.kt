@@ -1,8 +1,8 @@
 package com.badoo.kexasol.stream
 
 import com.badoo.kexasol.ExaConnectionOptions
-import com.badoo.kexasol.enum.ExaStreamMode
 import com.badoo.kexasol.exception.ExaStreamException
+import com.badoo.kexasol.mode.ExaStreamMode
 import com.badoo.kexasol.net.ExaNodeAddress
 import okio.BufferedSink
 import okio.BufferedSource

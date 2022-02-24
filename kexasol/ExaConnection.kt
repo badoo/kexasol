@@ -2,11 +2,11 @@ package com.badoo.kexasol
 
 import com.badoo.kexasol.api.ApiCommand
 import com.badoo.kexasol.api.ApiResponse
-import com.badoo.kexasol.enum.ExaStreamMode
 import com.badoo.kexasol.exception.*
 import com.badoo.kexasol.format.ExaQueryFormatter
 import com.badoo.kexasol.json.ExaDataJsonAdapter
 import com.badoo.kexasol.json.ExaMapJsonAdapter
+import com.badoo.kexasol.mode.ExaStreamMode
 import com.badoo.kexasol.net.ExaDsnParser
 import com.badoo.kexasol.net.ExaNodeAddress
 import com.badoo.kexasol.statement.ExaStatement
@@ -201,6 +201,7 @@ class ExaConnection(val options: ExaConnectionOptions) : Closeable {
      * @throws ExaQueryException
      * @return ExaStatement
      */
+    @JvmOverloads
     fun execute(query: String, queryParams: Map<String, Any?>? = null, snapshotExecution: Boolean = false): ExaStatement {
         return ExaStatement(this, query, queryParams, snapshotExecution)
     }

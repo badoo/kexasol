@@ -1,7 +1,7 @@
 package com.badoo.kexasol.ws
 
 import com.badoo.kexasol.ExaConnection
-import com.badoo.kexasol.enum.ExaEncryptionMode
+import com.badoo.kexasol.mode.ExaEncryptionMode
 import com.badoo.kexasol.net.ExaNoCertHostnameVerifier
 import com.badoo.kexasol.net.ExaNoCertTrustManager
 import com.badoo.kexasol.net.ExaNodeAddress

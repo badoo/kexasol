@@ -1,6 +1,6 @@
 import com.badoo.kexasol.ExaConnectionOptions
-import com.badoo.kexasol.enum.ExaEncryptionMode
 import com.badoo.kexasol.exception.ExaStreamException
+import com.badoo.kexasol.mode.ExaEncryptionMode
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalDateTime
