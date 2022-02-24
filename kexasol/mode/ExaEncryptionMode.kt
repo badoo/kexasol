@@ -1,4 +1,4 @@
-package com.badoo.kexasol.enum
+package com.badoo.kexasol.mode
 
 enum class ExaEncryptionMode {
     DISABLED,

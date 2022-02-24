@@ -2,11 +2,11 @@ package com.badoo.kexasol
 
 import com.badoo.kexasol.api.ApiCommand
 import com.badoo.kexasol.api.ApiResponse
-import com.badoo.kexasol.enum.ExaStreamMode
 import com.badoo.kexasol.exception.*
 import com.badoo.kexasol.format.ExaQueryFormatter
 import com.badoo.kexasol.json.ExaDataJsonAdapter
 import com.badoo.kexasol.json.ExaMapJsonAdapter
+import com.badoo.kexasol.mode.ExaStreamMode
 import com.badoo.kexasol.net.ExaDsnParser
 import com.badoo.kexasol.net.ExaNodeAddress
 import com.badoo.kexasol.statement.ExaStatement

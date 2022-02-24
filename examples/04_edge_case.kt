@@ -1,5 +1,5 @@
 import com.badoo.kexasol.ExaConnectionOptions
-import com.badoo.kexasol.enum.ExaEncryptionMode
+import com.badoo.kexasol.mode.ExaEncryptionMode
 import com.badoo.kexasol.stream.ExaStreamCSVReader
 import com.badoo.kexasol.stream.ExaStreamCSVWriter
 import java.math.BigDecimal
