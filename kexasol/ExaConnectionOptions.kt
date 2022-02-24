@@ -21,7 +21,7 @@ import com.badoo.kexasol.stream.ExaStreamWorker
  * @param[verboseException] Add additional debug information for toString() call of exceptions derived from `ExaException`
  * @param[loggerJsonMaxLength] Maximum length of JSON dumped into debug logs, helps to prevent unnecessary log bloating
  */
-class ExaConnectionOptions(
+class ExaConnectionOptions @JvmOverloads constructor(
     val dsn: String,
     val user: String = "",
     val password: String = "",
