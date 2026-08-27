@@ -46,7 +46,7 @@ dependencies {
     api("com.squareup.okio:okio:2.9.0")
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.10")
-    implementation("com.squareup.okhttp3:okhttp:4.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.9.2")
     implementation("com.squareup.moshi:moshi-kotlin:1.11.0")
     implementation("com.univocity:univocity-parsers:2.9.0")
     implementation("org.bouncycastle:bcpkix-jdk15on:1.66")
