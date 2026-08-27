@@ -43,7 +43,7 @@ repositories {
 }
 
 dependencies {
-    api("com.squareup.okio:okio:2.9.0")
+    api("com.squareup.okio:okio:3.4.0")
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.10")
     implementation("com.squareup.okhttp3:okhttp:4.9.0")
